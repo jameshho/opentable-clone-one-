@@ -1,91 +1,101 @@
 import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import styles from './page.module.css'
+// import { PrismaClient } from '@prisma/client'
+import Card from './components/RestaurantCard'
+import { PrismaClient } from "@prisma/client";
+import { useState } from 'react';
+import Link from 'next/link';
+import SearchBar from './components/SearchBar';
+import { prisma } from '@/lib/prisma';
+export type CuisineType = {
+  id: Number;
+  name: String;
+  // created_at: any;
+  // updated_at: any;
+}
+export type LocationType = {
+  id: Number;
+  name: String;
+  created_at: any;
+  updated_at: any;
+}
+export interface RestaurantCardType {
+  id: number;
+  main_image: string;
+  name: string;
+  slug: string;
+  // images: string[];
+  // description: string[];
+  // open_time: string;
+  // close_time: string;
+
+  // price: string;
+  // location: LocationType;
+  // cuisine: CuisineType;
+}
+
+
+
+const fetchCuisine = async (): Promise<CuisineType[]> => {
+  const cuisines = await prisma.cuisine.findMany({
+    select: {
+      id: true,
+      name: true
+    }
+  })
+  return cuisines
+}
+
+const fetchRestaurant = async (): Promise<RestaurantCardType[]> => {
+  const restaurants = await prisma.restaurant.findMany({
+    select: {
+      id: true,
+      name: true,
+      main_image: true,
+      slug: true
+
+    }
+  })
+  return restaurants
+}
+
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function Home() {
+export default async function Home() {
+  const cuisines = await fetchCuisine()
+  const restaurants = await fetchRestaurant()
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+    <main className="bg-gray-100 min-h-screen w-screen">
+      <main className="max-w-screen-2xl m-auto bg-white">
+  
+        <main>
+          {/* HEADER */}
+          <div className="h-64 bg-gradient-to-r from-[#0f1f47] to-[#5f6984] p-2">
+            <div className="text-center mt-10">
+              <h1 className="text-white text-5xl font-bold mb-2">
+                Find your table for any occasion
+              </h1>
+              {/* SEARCH BAR */}
+              <SearchBar/>
+              {/* SEARCH BAR */}
+            </div>
+          </div>
+          {/* HEADER */} {/* CARDS */}
+          <div className="py-3 px-36 mt-10 flex flex-wrap justify-center">
+            {/* CARD */}
+            {/* <Card/> */}
+            {/* {cuisines.length > 1 && cuisines.map(i => <Card card={i}/>)} */}
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-        <div className={styles.thirteen}>
-          <Image src="/thirteen.svg" alt="13" width={40} height={31} priority />
-        </div>
-      </div>
+            {restaurants.length > 1 && restaurants.map(i => <Card card={i} />)}
 
-      <div className={styles.grid}>
-        <a
-          href="https://beta.nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
+            {/* CARD */}
+          </div>
+          {/* CARDS */}
+        </main>
+      </main>
     </main>
   )
 }
