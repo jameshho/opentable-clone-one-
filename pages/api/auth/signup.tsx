@@ -43,8 +43,8 @@ export default async function handler(
         errorMessage: "City is invalid",
       },
       {
-        valid: validator.isStrongPassword(password),
-        errorMessage: "Password is not strong enough",
+        valid: validator.isStrongPassword(password, { minSymbols: 0 }),
+        errorMessage: "The password you have chosen is not strong enough. Please ensure that your password consists of at least 8 characters, including at least 1 uppercase letter, 1 lowercase letter, and 1 number.",
       },
     ];
 

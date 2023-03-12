@@ -4,7 +4,6 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import useAuth from '@/hooks/useAuth';
 import { AuthenticationContext } from "../context/AuthContext";
@@ -120,37 +119,7 @@ export default function SigninModal() {
 
 
                     </h2>
-                    {/* <p>{JSON.stringify(data)}</p> */}
-
-
-                    {/* <div className="my-3 flex justify-between text-sm">
-                        <input
-                            type="text"
-                            className={`border rounded p-2 py-3 w-full ${errorState ? 'border-red-500' : ''}`
-                            }
-                            placeholder="Email"
-                            value={inputs.email}
-                            onChange={handleChangeInput}
-                            name="email"
-                        />
-                    </div>
-
-
-
-                    <div className="my-3 flex justify-between text-sm">
-                        <input
-                            // type="password"
-                            type="text"
-
-                            className="border rounded p-2 py-3 w-full"
-                            placeholder="Password"
-                            value={inputs.password}
-                            onChange={handleChangeInput}
-                            name="password"
-                        />
-                    </div> */}
-
-                    {/* test top */}
+           
 
                     <div className="my-3 flex flex-col">
                         <label htmlFor="email" className="text-sm font-medium text-gray-700 mb-1">Email</label>

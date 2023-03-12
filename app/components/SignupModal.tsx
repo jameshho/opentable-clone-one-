@@ -5,9 +5,8 @@ import * as React from 'react';
 import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-
+import useAuth from '@/hooks/useAuth';
 const style = {
     position: 'absolute' as 'absolute',
     top: '50%',
@@ -21,21 +20,11 @@ const style = {
 };
 
 export default function SignupModal() {
-    const [open, setOpen] = React.useState(false);
-    const [disabled, setDisabled] = React.useState(true);
+    const [open, setOpen] = useState(false);
+    const [disabled, setDisabled] = useState(true);
     const handleOpen = () => setOpen(true);
-    const handleClose = () => {
-        setOpen(false);
-        setInputs({
-            firstName: "",
-            lastName: "",
-            email: "",
-            phone: "",
-            city: "",
-            password: "",
-            confirmPassword: "",
-        })
-    }
+    const { handleSignup } = useAuth();
+
 
 
     const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,8 +56,42 @@ export default function SignupModal() {
 
     },
         [inputs]
-    )
-        ;
+    );
+
+    const handleClose = () => {
+        setOpen(false);
+        setInputs({
+            firstName: "",
+            lastName: "",
+            email: "",
+            phone: "",
+            city: "",
+            password: "",
+            confirmPassword: "",
+        })
+    }
+
+    const handleClick = async (event: any) => {
+        event.preventDefault()
+        try {
+            handleSignup(
+                {
+                    firstName: inputs.firstName,
+                    lastName: inputs.lastName,
+                    email: inputs.email,
+                    phone: inputs.phone,
+                    city: inputs.city,
+                    password: inputs.password,
+                    confirmPassword: inputs.confirmPassword
+                }
+            )
+            console.log("data went through to useAuth")
+            handleClose()
+
+        } catch (error: any) {
+            console.log(error.message)
+        }
+    }
 
     return (
         <div>
@@ -208,11 +231,9 @@ export default function SignupModal() {
                         <button
                             className={`w-[100%] bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ${disabled ? 'opacity-50 cursor-not-allowed' : ''
                                 }`}
-                            onClick={handleClose}
+                            onClick={handleClick}
                             disabled={disabled}
                         >
-
-
                             Sign Up
                         </button>
 
@@ -220,83 +241,6 @@ export default function SignupModal() {
                     </form>
 
 
-                    {/* test bottom */}
-                    {/* <div className="my-3 flex justify-between text-sm">
-                        <input
-                            type="text"
-                            className="border rounded p-2 py-3 w-[49%]"
-                            placeholder="John"
-                            value={inputs.firstName}
-                            onChange={handleChangeInput}
-                            name="firstName"
-                        />
-                        <input
-                            type="text"
-                            className="border rounded p-2 py-3 w-[49%]"
-                            placeholder="Doe"
-                            value={inputs.lastName}
-                            onChange={handleChangeInput}
-                            name="lastName"
-                        />
-                    </div>
-                    <div className="my-3 flex justify-between text-sm">
-                        <input
-                            type="text"
-                            className="border rounded p-2 py-3 w-full"
-                            placeholder="Email"
-
-                            value={inputs.email}
-                            onChange={handleChangeInput}
-                            name="email"
-                        />
-                    </div>
-
-                    <div className="my-3 flex justify-between text-sm">
-                        <input
-                            type="text"
-                            className="border rounded p-2 py-3 w-[49%]"
-                            placeholder="Phone"
-                            value={inputs.phone}
-                            onChange={handleChangeInput}
-                            name="phone"
-                        />
-                        <input
-                            type="text"
-                            className="border rounded p-2 py-3 w-[49%]"
-                            placeholder="City"
-                            value={inputs.city}
-                            onChange={handleChangeInput}
-                            name="city"
-                        />
-                    </div>
-
-                    <div className="my-3 flex justify-between text-sm">
-                        <input
-                            type="password"
-                            className="border rounded p-2 py-3 w-full"
-                            placeholder="Password"
-                            value={inputs.password}
-                            onChange={handleChangeInput}
-                            name="password"
-                        />
-                    </div>
-                    <div className="my-3 flex justify-between text-sm">
-                        <input
-                            type="password"
-                            className="border rounded p-2 py-3 w-full"
-                            placeholder="Confirm Password"
-                            value={inputs.confirmPassword}
-                            onChange={handleChangeInput}
-                            name="confirmPassword"
-                        />
-                    </div>
-                    <button
-                        className='uppercase bg-red-600 w-full text-white disabled:bg-gray-400'
-                        onClick={handleClose}
-                        disabled={disabled}
-                    // disabled={true}
-
-                    >Sign Up</button> */}
 
                 </Box>
             </Modal>
