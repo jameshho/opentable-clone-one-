@@ -13,6 +13,7 @@ export default async function handler(
 ) {
   if (req.method === "POST") {
     const { firstName, lastName, email, phone, city, password } = req.body;
+    // errors contains error messages from validation
     const errors: string[] = [];
 
     const validationSchema = [
@@ -57,7 +58,7 @@ export default async function handler(
     if (errors.length) {
       return res.status(400).json({ errorMessage: errors[0] });
     }
-
+    //check if the email is associated with an existing account
     const userWithEmail = await prisma.user.findUnique({
       where: {
         email,
@@ -66,7 +67,7 @@ export default async function handler(
 
     if (userWithEmail) {
       return res
-        .status(400)
+        .status(409)
         .json({ errorMessage: "Email is associated with another account" });
     }
 

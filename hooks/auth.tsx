@@ -54,12 +54,16 @@ export const signup = async ({
         if (response.status !== 200) {
             throw new Error('The request went through by response is not OK')
         }
+        return null
 
 
-    } catch (error) {
-        console.log('data DID NOT got posted to signup API')
-
-        throw new Error('sign up request did not go through')
+    } catch (error: any) {
+        console.log('Error auth: data DID NOT got posted to signup API')
+        // console.log("Error auth" + {error.message})
+        if (error.response && error.response.data) {
+            throw new Error(error.response.data.errorMessage)
+        }
+        // throw new Error('sign up request did not go through')
     }
 }
 

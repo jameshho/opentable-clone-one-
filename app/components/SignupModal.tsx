@@ -20,7 +20,7 @@ const style = {
 };
 
 export default function SignupModal() {
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(true);
     const [disabled, setDisabled] = useState(true);
     const handleOpen = () => setOpen(true);
     const { handleSignup } = useAuth();
@@ -59,32 +59,22 @@ export default function SignupModal() {
     );
 
     const handleClose = () => {
-        setOpen(false);
-        setInputs({
-            firstName: "",
-            lastName: "",
-            email: "",
-            phone: "",
-            city: "",
-            password: "",
-            confirmPassword: "",
-        })
+        // setOpen(false);
+        // setInputs({
+        //     firstName: "",
+        //     lastName: "",
+        //     email: "",
+        //     phone: "",
+        //     city: "",
+        //     password: "",
+        //     confirmPassword: "",
+        // })
     }
 
     const handleClick = async (event: any) => {
         event.preventDefault()
         try {
-            handleSignup(
-                {
-                    firstName: inputs.firstName,
-                    lastName: inputs.lastName,
-                    email: inputs.email,
-                    phone: inputs.phone,
-                    city: inputs.city,
-                    password: inputs.password,
-                    confirmPassword: inputs.confirmPassword
-                }
-            )
+            await handleSignup(inputs)
             console.log("data went through to useAuth")
             handleClose()
 

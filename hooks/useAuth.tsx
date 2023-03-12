@@ -44,8 +44,8 @@ const useAuth = () => {
             }
     ) => {
         if (password !== confirmPassword) {
-            console.log("password do not match")
-            return setAuthState({ loading: false, data: null, error: "password do not match" })
+            setAuthState({ loading: false, data: null, error: "password do not match" })
+            throw new Error("Password do not match")
         }
         try {
             await signup(
@@ -62,8 +62,9 @@ const useAuth = () => {
 
             setAuthState({ loading: false, data: null, error: null });
         } catch (error: any) {
-            console.log("data did not go through to signup")
             setAuthState({ loading: false, data: null, error: error.message });
+            console.log("Error useAuth: data did not go through to signup ")
+            console.log(error)
         }
     }
 
@@ -72,7 +73,7 @@ const useAuth = () => {
         removeCookies("jwt");
         window.location.reload()
     }
-    return { handleSignin, handleSignout,handleSignup }
+    return { handleSignin, handleSignout, handleSignup }
 }
 
 export default useAuth;
