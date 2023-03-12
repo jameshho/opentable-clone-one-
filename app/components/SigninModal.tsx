@@ -28,7 +28,7 @@ export default function SigninModal() {
     const { loading, data, error } = useContext(AuthenticationContext)
 
 
-    const { signin } = useAuth();
+    const { handleSignin } = useAuth();
     const [errorState, setErrorState] = useState("");
 
     const [open, setOpen] = useState(false);
@@ -45,12 +45,13 @@ export default function SigninModal() {
 
     const handleClick = async () => {
         try {
-            const response = await signin({
+            const response = await handleSignin({
                 email: inputs.email,
                 password: inputs.password,
             })
 
             handleClose()
+            window.location.reload()
 
 
         } catch (error) {
