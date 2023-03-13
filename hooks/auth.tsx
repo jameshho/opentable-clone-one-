@@ -1,3 +1,5 @@
+// "use client"
+
 import React from 'react'
 import axios from "axios";
 import { getCookie } from "cookies-next";
@@ -14,16 +16,19 @@ export const signin = async ({ email, password,
             email,
             password
         })
-        if (response.status !== 200) {
-            throw new Error('Incorrect email or password')
-        }
+        // if (response.status !== 200) {
+        //     throw new Error('Password:Incorrect email or password')
+        // }
 
 
     } catch (error) {
 
-        throw new Error('Incorrect email or password')
+        throw new Error('Password:Incorrect email or password')
     }
 }
+
+
+
 export const signup = async ({
     firstName,
     lastName,
@@ -50,20 +55,34 @@ export const signup = async ({
             city,
             password
         })
+        if (response.status === 400) {
+            console.log('hello')
+        }
         console.log('data got posted to signup API')
-        if (response.status !== 200) {
-            throw new Error('The request went through by response is not OK')
+        if (response.status === 200) {
+            console.log('hello')
+            console.log('Server success', response)
+        } else {
+            console.log('goodbye')
+
+            console.log('Server Error', response)
+
         }
         return null
 
 
     } catch (error: any) {
-        console.log('Error auth: data DID NOT got posted to signup API')
-        // console.log("Error auth" + {error.message})
-        if (error.response && error.response.data) {
-            throw new Error(error.response.data.errorMessage)
+
+        if (error.response && error.response.data && error.response.data.errorMessage) {
+            const errorMessage = error.response.data.errorMessage;
+            console.log('Server Error', errorMessage);
+            throw new Error(errorMessage)
+
         }
-        // throw new Error('sign up request did not go through')
+
+        console.log('hello from error side')
+
+        throw new Error('Fetch Error')
     }
 }
 
@@ -109,3 +128,7 @@ export const fetchUser = async (setAuthState: any) => {
         });
     }
 };
+
+
+
+

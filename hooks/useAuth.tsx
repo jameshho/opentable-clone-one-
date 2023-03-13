@@ -20,6 +20,7 @@ const useAuth = () => {
             setAuthState({ loading: false, data: null, error: null });
         } catch (error: any) {
             setAuthState({ loading: false, data: null, error: error.message });
+            throw new Error (error.message)
         }
     }
 
@@ -45,10 +46,10 @@ const useAuth = () => {
     ) => {
         if (password !== confirmPassword) {
             setAuthState({ loading: false, data: null, error: "password do not match" })
-            throw new Error("Password do not match")
+            throw new Error("Password:Password do not match")
         }
         try {
-            await signup(
+            const response = await signup(
                 {
                     firstName,
                     lastName,
@@ -58,13 +59,16 @@ const useAuth = () => {
                     password
 
                 });
+
             console.log("data went through to signup")
 
             setAuthState({ loading: false, data: null, error: null });
         } catch (error: any) {
             setAuthState({ loading: false, data: null, error: error.message });
             console.log("Error useAuth: data did not go through to signup ")
-            console.log(error)
+            console.log(error.message)
+            throw new Error(error.message)
+            // console.log(JSON.stringify(error))
         }
     }
 

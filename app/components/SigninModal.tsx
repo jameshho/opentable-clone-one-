@@ -55,7 +55,6 @@ export default function SigninModal() {
 
         } catch (error) {
             setErrorState('Email/Password Error')
-            console.log('signin function did not run')
         }
 
         // signin({ email: inputs.email, password: inputs.password })

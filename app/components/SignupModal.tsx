@@ -20,8 +20,9 @@ const style = {
 };
 
 export default function SignupModal() {
-    const [open, setOpen] = useState(true);
+    const [open, setOpen] = useState(false);
     const [disabled, setDisabled] = useState(true);
+    const [error, setError] = useState("")
     const handleOpen = () => setOpen(true);
     const { handleSignup } = useAuth();
 
@@ -35,7 +36,7 @@ export default function SignupModal() {
     };
 
     // Set this up so validate can result
-    const errors = ""
+
 
 
     const [inputs, setInputs] = useState({
@@ -59,27 +60,33 @@ export default function SignupModal() {
     );
 
     const handleClose = () => {
-        // setOpen(false);
-        // setInputs({
-        //     firstName: "",
-        //     lastName: "",
-        //     email: "",
-        //     phone: "",
-        //     city: "",
-        //     password: "",
-        //     confirmPassword: "",
-        // })
+        setOpen(false);
+        setInputs({
+            firstName: "",
+            lastName: "",
+            email: "",
+            phone: "",
+            city: "",
+            password: "",
+            confirmPassword: "",
+        })
     }
 
     const handleClick = async (event: any) => {
         event.preventDefault()
         try {
             await handleSignup(inputs)
-            console.log("data went through to useAuth")
+            // console.log("data went through to useAuth")
             handleClose()
+            setError("")
+            window.location.reload()
+
 
         } catch (error: any) {
+            console.log('catch block of handleClick')
             console.log(error.message)
+            setError(error.message)
+
         }
     }
 
@@ -126,7 +133,7 @@ export default function SignupModal() {
                         <div className="my-3 flex justify-between text-sm">
                             <input
                                 type="text"
-                                className="border rounded p-2 py-3 w-1/2 mr-2"
+                                className={`border rounded p-2 py-3 w-1/2 mr-2 ${error.startsWith("FirstName") ? 'border-red-500 border-[3px]': ''}`}
                                 placeholder="John"
                                 value={inputs.firstName}
                                 onChange={handleChangeInput}
@@ -134,7 +141,7 @@ export default function SignupModal() {
                             />
                             <input
                                 type="text"
-                                className="border rounded p-2 py-3 w-1/2 ml-2"
+                                className={`border rounded p-2 py-3 w-1/2 ml-2 ${error.startsWith("LastName") ? 'border-red-500 border-[3px]' : ''}`}
                                 placeholder="Doe"
                                 value={inputs.lastName}
                                 onChange={handleChangeInput}
@@ -148,7 +155,7 @@ export default function SignupModal() {
                             </label>
                             <input
                                 type="text"
-                                className="border rounded p-2 py-3 w-full"
+                                className={`border rounded p-2 py-3 w-full ${error.startsWith("Email") ? 'border-red-500 border-[3px]' : ''}`}
                                 placeholder="Email"
                                 value={inputs.email}
                                 onChange={handleChangeInput}
@@ -156,7 +163,7 @@ export default function SignupModal() {
                             />
                         </div>
 
-                        <div className="my-3 flex justify-between text-sm">
+                        <div className="my-3 flex justify-between text-sm ">
                             <label htmlFor="phone" className="w-1/2">
                                 Phone
                             </label>
@@ -168,7 +175,7 @@ export default function SignupModal() {
                         <div className="my-3 flex justify-between text-sm">
                             <input
                                 type="text"
-                                className="border rounded p-2 py-3 w-1/2 mr-2"
+                                className={`border rounded p-2 py-3 w-1/2 mr-2" ${error.startsWith("Phone") ? 'border-red-500 border-[3px]' : ''}`}
                                 placeholder="Phone"
                                 value={inputs.phone}
                                 onChange={handleChangeInput}
@@ -176,7 +183,7 @@ export default function SignupModal() {
                             />
                             <input
                                 type="text"
-                                className="border rounded p-2 py-3 w-1/2 ml-2"
+                                className={`border rounded p-2 py-3 w-1/2 ml-2 ${error.startsWith("City") ? 'border-red-500 border-[3px]' : ''}`}
                                 placeholder="City"
                                 value={inputs.city}
                                 onChange={handleChangeInput}
@@ -190,7 +197,7 @@ export default function SignupModal() {
                             </label>
                             <input
                                 type="password"
-                                className="border rounded p-2 py-3 w-full"
+                                className={`border rounded p-2 py-3 w-full  ${error.startsWith("Password") ? 'border-red-500 border-[3px]' : ''}`}
                                 placeholder="Password"
                                 value={inputs.password}
                                 onChange={handleChangeInput}
@@ -204,7 +211,7 @@ export default function SignupModal() {
                             </label>
                             <input
                                 type="password"
-                                className="border rounded p-2 py-3 w-full"
+                                className={`border rounded p-2 py-3 w-full  ${error.startsWith("Password") ? 'border-red-500 border-[3px]' : ''}`}
                                 placeholder="Confirm Password"
                                 value={inputs.confirmPassword}
                                 onChange={handleChangeInput}
@@ -212,8 +219,8 @@ export default function SignupModal() {
                             />
                         </div>
 
-                        {errors && (
-                            <p className="text-red-600 my-3">{errors}</p>
+                        {error && (
+                            <p className="text-red-600 my-3">{error.split(":")[1]}</p>
                         )}
 
 

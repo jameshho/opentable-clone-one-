@@ -18,8 +18,10 @@ const page = () => {
             <div className="bg-white rounded-lg shadow-md p-6">
                 <h2 className="text-lg font-semibold mb-4">My Information</h2>
                 <p className="mb-2"><strong>Name:</strong> {data.firstName + " " + data.lastName}</p>
-                <p className="mb-2"><strong>Email:</strong> johndoe@example.com</p>
-                <p className="mb-2"><strong>Phone:</strong> 555-555-5555</p>
+                <p className="mb-2"><strong>Email:</strong> {data.email}</p>
+                <p className="mb-2"><strong>City:</strong> {data.city}</p>
+                <p className="mb-2"><strong>Phone:</strong> {data.phone}</p>
+
             </div>
             <div className="bg-white rounded-lg shadow-md p-6 mt-6">
                 <h2 className="text-lg font-semibold mb-4">Upcoming Bookings</h2>
