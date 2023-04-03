@@ -60,16 +60,17 @@ model Cuisine {
 }
 
 model User {
-  id         Int      @id @default(autoincrement())
+  id         Int       @id @default(autoincrement())
   first_name String
   last_name  String
   city       String
   password   String
-  email      String   @unique
+  email      String    @unique
   phone      String
   reviews    Review[]
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  booking    Booking[]
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
 }
 
 model Review {
@@ -97,6 +98,8 @@ model Booking {
   restaurant_id     Int
   restaurant        Restaurant         @relation(fields: [restaurant_id], references: [id])
   tables            BookingsOnTables[]
+  user_id           Int?
+  user              User?               @relation(fields: [user_id], references: [id])
   created_at        DateTime           @default(now())
   updated_at        DateTime           @updatedAt
 }
@@ -118,6 +121,8 @@ model BookingsOnTables {
   table      Table    @relation(fields: [table_id], references: [id])
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+  // The @@id decorator specifies that the primary key for the BookingsOnTables model is a composite key consisting of the booking_id and table_id fields. This ensures that each booking is associated with a unique table, and each table is associated with a unique booking.
+
   @@id([booking_id, table_id])
 }
 

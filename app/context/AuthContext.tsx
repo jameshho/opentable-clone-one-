@@ -3,8 +3,8 @@
 import axios from "axios";
 import { getCookie } from "cookies-next";
 import React, { useState, createContext, useEffect } from "react";
-import { fetchUser } from "@/hooks/auth";
-
+import { fetchUser } from "@/services/auth/auth";
+import { Booking, Review } from "@prisma/client";
 interface User {
   id: number;
   firstName: string;
@@ -12,6 +12,8 @@ interface User {
   email: string;
   city: string;
   phone: string;
+  reviews: Review[]
+  booking:Booking[]
 }
 
 interface State {
@@ -43,7 +45,7 @@ export default function AuthContext({
     error: null,
   });
 
-  
+
 
   useEffect(() => {
     fetchUser(setAuthState);

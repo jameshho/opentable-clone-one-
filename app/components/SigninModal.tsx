@@ -71,8 +71,8 @@ export default function SigninModal() {
     const [disabled, setDisabled] = useState(true)
 
     const [inputs, setInputs] = useState({
-        email: "",
-        password: ""
+        email: "rachel_evans@gmail.com",
+        password: "Password123"
 
     });
 
@@ -104,12 +104,7 @@ export default function SigninModal() {
                         {errorState.length > 1 && <div>{errorState}</div>}
 
                         <div className="text-sm">
-                            <p>
-                                Sign In
-                            </p>
-
-                            <p >yinho@hotmail.com</p>
-                            <p >as14Adsdkfasdkgjh23s.ag</p>
+                            <p>Sign In</p>
                         </div>
                     </div>
                     <h2 className="text-2xl font-light text-center">
@@ -118,7 +113,7 @@ export default function SigninModal() {
 
 
                     </h2>
-           
+
 
                     <div className="my-3 flex flex-col">
                         <label htmlFor="email" className="text-sm font-medium text-gray-700 mb-1">Email</label>

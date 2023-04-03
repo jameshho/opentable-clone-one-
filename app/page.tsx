@@ -2,7 +2,7 @@ import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import styles from './page.module.css'
 // import { PrismaClient } from '@prisma/client'
-import Card from './components/RestaurantCard'
+import RestaurantCard from './components/RestaurantCard'
 import { PrismaClient } from "@prisma/client";
 import { useState } from 'react';
 import Link from 'next/link';
@@ -89,7 +89,7 @@ export default async function Home() {
             {/* <Card/> */}
             {/* {cuisines.length > 1 && cuisines.map(i => <Card card={i}/>)} */}
 
-            {restaurants.length > 1 && restaurants.map(i => <Card card={i} />)}
+            {restaurants.length > 1 && restaurants.map(i => <RestaurantCard card={i} />)}
 
             {/* CARD */}
           </div>

@@ -1,7 +1,7 @@
 "use client"
 
 import { useContext } from "react";
-import { signin, signup } from "./auth";
+import { signin, signup } from "../services/auth/auth";
 import { AuthenticationContext } from "@/app/context/AuthContext";
 import { removeCookies } from "cookies-next";
 

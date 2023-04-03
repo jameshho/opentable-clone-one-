@@ -20,17 +20,18 @@ export default async function handler(
     });
   }
 
+
   const user = await prisma.user.findUnique({
     where: {
       email: payload.email,
     },
-    select: {
-      id: true,
-      first_name: true,
-      last_name: true,
-      email: true,
-      city: true,
-      phone: true,
+    include: {
+      booking: {
+        include: {
+          restaurant: true // Include the associated restaurant
+        }
+      },
+      reviews: true // Include the user's reviews
     },
   });
 
@@ -45,10 +46,47 @@ export default async function handler(
     firstName: user.first_name,
     lastName: user.last_name,
     email: user.email,
-
     phone: user.phone,
     city: user.city,
+    reviews: user.reviews,
+    booking: user.booking.map(booking => ({
+      ...booking,
+      restaurantName: booking.restaurant.name // Add the restaurant name to each booking object
+    }))
   });
+
+  // const user = await prisma.user.findUnique({
+  //   where: {
+  //     email: payload.email,
+  //   },
+  //   select: {
+  //     id: true,
+  //     first_name: true,
+  //     last_name: true,
+  //     email: true,
+  //     city: true,
+  //     phone: true,
+  //     reviews: true,
+  //     booking: true
+  //   },
+  // });
+
+  // if (!user) {
+  //   return res.status(401).json({
+  //     errorMessage: "User not found",
+  //   });
+  // }
+
+  // return res.json({
+  //   id: user.id,
+  //   firstName: user.first_name,
+  //   lastName: user.last_name,
+  //   email: user.email,
+  //   phone: user.phone,
+  //   city: user.city,
+  //   reviews: user.reviews,
+  //   booking: user.booking
+  // });
 
 
 }

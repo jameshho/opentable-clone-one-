@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import ReservationCard from './components/ReservationCard';
 import { prisma } from '@/lib/prisma';
+import RestaurantComment from "./components/RestaurantComment"
 // const prisma = new PrismaClient();
 
 export interface RestaurantProp {
@@ -14,6 +15,7 @@ export interface RestaurantProp {
     open_time: string;
     close_time: string;
     slug: string;
+    main_image: string;
 }
 
 export const fetchRestaurantBySlug = async (slug: string): Promise<RestaurantProp> => {
@@ -24,6 +26,7 @@ export const fetchRestaurantBySlug = async (slug: string): Promise<RestaurantPro
         select: {
             id: true,
             name: true,
+            main_image: true,
             images: true,
             description: true,
             slug: true,
@@ -46,15 +49,15 @@ const RestaurantDetail = async ({
         params: { slug: string }
     }) => {
 
-    
+
     const restaurant = await fetchRestaurantBySlug(params.slug)
+
+
 
     return (
         <main className="bg-gray-100 min-h-screen w-screen">
             <main className="max-w-screen-2xl m-auto bg-white">
-                {/* NAVBAR */}
 
-                {/* NAVBAR */} {/* HEADER */}
                 <div className="h-96 overflow-hidden">
                     <div
                         className="bg-center bg-gradient-to-r from-[#0f1f47] to-[#5f6984] h-full flex justify-center items-center"
@@ -76,7 +79,6 @@ const RestaurantDetail = async ({
 
                             {/* <a href="" className="mr-7"> Menu </a> */}
                         </nav>
-                        {/* RESAURANT NAVBAR */} {/* TITLE */}
                         <div className="mt-4 border-b pb-6">
 
 
@@ -89,7 +91,6 @@ const RestaurantDetail = async ({
                             </h1>
                         </div>
 
-                        {/* TITLE */} {/* RATING */}
                         <div className="flex items-end">
                             <div className="ratings mt-2 flex items-center">
                                 <p>*****</p>
@@ -99,13 +100,15 @@ const RestaurantDetail = async ({
                                 <p className="text-reg ml-4">600 Reviews</p>
                             </div>
                         </div>
-                        {/* RATING */} {/* DESCRIPTION */}
+
                         <div className="mt-4">
                             <p className="text-lg font-light">
                                 {restaurant.description}
+
                             </p>
+
                         </div>
-                        {/* DESCRIPTION */} {/* IMAGES */}
+
                         <div>
                             <h1 className="font-bold text-3xl mt-10 mb-7 border-b pb-5">
                                 5 photos
@@ -120,46 +123,21 @@ const RestaurantDetail = async ({
 
                             </div>
                         </div>
-                        {/* IMAGES */} {/* REVIEWS */}
-                        <div>
-                            <h1 className="font-bold text-3xl mt-10 mb-7 borber-b pb-5">
-                                What 100 people are saying
-                            </h1>
-                            <div>
-                                {/* REVIEW CARD */}
-                                <div className="border-b pb-7 mb-7">
-                                    <div className="flex">
-                                        <div className="w-1/6 flex flex-col items-center">
-                                            <div
-                                                className="rounded-full bg-blue-400 w-16 h-16 flex items-center justify-center"
-                                            >
-                                                <h2 className="text-white text-2xl">MJ</h2>
-                                            </div>
-                                            <p className="text-center">Micheal Jordan</p>
-                                        </div>
-                                        <div className="ml-10 w-5/6">
-                                            <div className="flex items-center">
-                                                <div className="flex mr-5">*****</div>
-                                            </div>
-                                            <div className="mt-5">
-                                                <p className="text-lg font-light">
-                                                    Laurie was on top of everything! Slow night due to the
-                                                    snow storm so it worked in our favor to have more one on
-                                                    one with the staff. Delicious and well worth the money.
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {/* REVIEW CARD */}
-                            </div>
-                        </div>
+                        {/* Review Card */}
+                        {/* @ts-expect-error Async Server Component */}
+                        <RestaurantComment
+                            restaurantId={restaurant.id}
+                        />
+
                         {/* REVIEWS */}
                     </div>
-                    <ReservationCard slug={params.slug}/>
+                    <ReservationCard
+                        slug={params.slug}
+                        restaurant={restaurant}
+
+                    />
                 </div>
-                {/* DESCRIPTION PORTION */} {/* RESERVATION CARD PORTION */} {/* RESERVATION
-          CARD PORTION */}
+
             </main>
         </main >
     )
